@@ -8,6 +8,10 @@
 
 class Router 
 {
+    private $get;
+    private $post;
+
+
     //Pattern Singleton
     public static function getInstance() 
     {
@@ -22,11 +26,31 @@ class Router
     
     public function load() 
     {
+        $this->loadRoutesFile('default');
         
+        return $this;
     }
     
     public function loadRoutesFile($file) 
     {
+        if(file_exists('routes/'.$file.'.php')) 
+        {
+            require_once 'routes/'.$file.'.php';
+        }
+    }
+    
+    public function match() 
+    {
         
+    }
+    
+    public function get($pattern, $function) 
+    {
+        $this->get[$pattern] = $function;
+    }
+    
+    public function post($pattern, $function) 
+    {
+        $this->post[$pattern] = $function;
     }
 }

@@ -26,7 +26,7 @@ class Core
     public function run($cfg) 
     {
         $this->config = $cfg;
-        $this->loadModule('router');
+        $this->loadModule('router')->load()->match();
     }
     
     //Get parameters in array of configuration
@@ -43,10 +43,11 @@ class Core
             $moduleName = ucfirst(strtolower($moduleName));
             
             //instance of object
-            $route = $moduleName::getInstance();
+            $routes = $moduleName::getInstance();
             
-            return $route;
-        } catch (Exception $ex) 
+            return $routes;
+        } 
+        catch (Exception $ex) 
         {
             die($ex->getMessage());
         }
