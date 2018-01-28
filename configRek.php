@@ -7,6 +7,11 @@
 //Array of configuration 
 $config = array();
 
+//Directory root
+define('RAIZ', '/reksystem');
+define('BASE', 'http://localhost/reksystem');
+
+
 //Data of connection in database
 $config['db'] = array(
     'host' => 'localhost',

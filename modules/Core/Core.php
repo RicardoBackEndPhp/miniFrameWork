@@ -26,6 +26,7 @@ class Core
     public function run($cfg) 
     {
         $this->config = $cfg;
+        
         $this->loadModule('router')->load()->match();
     }
     

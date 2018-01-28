@@ -28,6 +28,7 @@ class Router
     {
         $this->loadRoutesFile('default');
         
+        //returnig this object 
         return $this;
     }
     
@@ -39,9 +40,43 @@ class Router
         }
     }
     
+    //Calling the routes of the system
     public function match() 
     {
+        //Getting URL of the mode reksystem
+        $getRaiz = RAIZ.'/';
+        $urlNow  = $_SERVER['REQUEST_URI'];
+        $url2 = trim(str_replace($getRaiz,'', $urlNow));
         
+        //Getting URL now
+        $url = isset($_GET['url'])?$_GET['url']:'';
+        
+        //tests
+        //echo 'URL: '.$url."<br/>";
+        //echo 'URLReK: '.$url2.'<hr/>';
+        //echo 'Método: '.$_SERVER['REQUEST_METHOD'];
+        
+        //Getting the method using
+        switch ($_SERVER['REQUEST_METHOD']) {
+            case 'POST':
+                $type = $this->post;
+            break;
+                
+            default:
+                $type = $this->get;
+            break;
+        }
+                
+        //Here that the magic happens
+        
+        //Getting all routes possible
+        foreach($type as $pt => $func) 
+        {
+            //Verifying if the routes follow the pattern chosen(regular expression).
+            $patterned = preg_replace('(\{[a-z0-9]{0,}\})', '([a-z0-9]{0,})', $pt);
+            
+            echo 'Padrão: '.$patterned.'<br/>';
+        }
     }
     
     public function get($pattern, $function) 
