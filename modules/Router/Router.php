@@ -66,16 +66,41 @@ class Router
                 $type = $this->get;
             break;
         }
-                
+                ₢
         //Here that the magic happens
         
         //Getting all routes possible
         foreach($type as $pt => $func) 
         {
-            //Verifying if the routes follow the pattern chosen(regular expression).
+            //Encontra os parâmetros com "{}" e substitui por expressão regular.
             $patterned = preg_replace('(\{[a-z0-9]{0,}\})', '([a-z0-9]{0,})', $pt);
             
-            echo 'Padrão: '.$patterned.'<br/>';
+            //Verifying if the routes follow the pattern chosen(regular expression).
+            if (preg_match('#^('.$patterned.')*$#i', $url, $matches) === 1) 
+            {
+                //Retirando as duas primeiras possições
+                array_shift($matches);
+                array_shift($matches);
+                
+                $itens = array();
+                
+                //preenchendo o vetor com o nome dos argumentos
+                if(preg_match_all('(\{[a-z0-9]{0,}\})', $pt, $vIndice)) 
+                {
+                    $itens = preg_replace('(\{|\})', '', $vIndice[0]);
+                }
+                
+                //juntando os valores ($matches) com os argumentos ($itens)
+                $arg = array();
+                foreach ($matches as $key => $value) 
+                {
+                    $arg[$itens[$key]] = $value;
+                }
+                
+                //Executando a função da rota
+                $func($arg);
+                break;
+            }
         }
     }
     
