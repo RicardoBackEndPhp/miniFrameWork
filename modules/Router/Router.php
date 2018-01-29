@@ -10,7 +10,7 @@ class Router
 {
     private $get;
     private $post;
-
+    private $core;
 
     //Pattern Singleton
     public static function getInstance() 
@@ -26,6 +26,10 @@ class Router
     
     public function load() 
     {
+        //I passed the call below for the method "view()"
+        //$this->core = Core::getInstance();
+        
+        //Calling the method "loadRoutesFile"
         $this->loadRoutesFile('default');
         
         //returnig this object 
@@ -38,6 +42,18 @@ class Router
         {
             require_once 'routes/'.$file.'.php';
         }
+    }
+    
+    public function view($template, $data = array()) 
+    {
+        //Getting the Object Core
+        $this->core = Core::getInstance();
+        
+        //Getting object Template
+        $tpl = $this->core->loadModule('template');
+        
+        //Calling the method "render" in class "Template"
+        $tpl->render($template,$data);
     }
     
     //Calling the routes of the system
@@ -66,38 +82,38 @@ class Router
                 $type = $this->get;
             break;
         }
-                ₢
+                
         //Here that the magic happens
         
         //Getting all routes possible
         foreach($type as $pt => $func) 
         {
-            //Encontra os parâmetros com "{}" e substitui por expressão regular.
+            //Find the parameters with "{}" and replace by regular expression
             $patterned = preg_replace('(\{[a-z0-9]{0,}\})', '([a-z0-9]{0,})', $pt);
             
             //Verifying if the routes follow the pattern chosen(regular expression).
             if (preg_match('#^('.$patterned.')*$#i', $url, $matches) === 1) 
             {
-                //Retirando as duas primeiras possições
+                //Withdrawing the two first position
                 array_shift($matches);
                 array_shift($matches);
                 
                 $itens = array();
                 
-                //preenchendo o vetor com o nome dos argumentos
+                //Filling in the array with the names of arguments
                 if(preg_match_all('(\{[a-z0-9]{0,}\})', $pt, $vIndice)) 
                 {
                     $itens = preg_replace('(\{|\})', '', $vIndice[0]);
                 }
                 
-                //juntando os valores ($matches) com os argumentos ($itens)
+                //Joining the values ($matches) with the arguments ($items)
                 $arg = array();
                 foreach ($matches as $key => $value) 
                 {
                     $arg[$itens[$key]] = $value;
                 }
                 
-                //Executando a função da rota
+                //Executing  the function of the route
                 $func($arg);
                 break;
             }
