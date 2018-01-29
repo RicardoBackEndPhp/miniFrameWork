@@ -9,17 +9,28 @@
 class Core 
 {
     private $config;
+    
+    
+    private function __construct() {}
+    private function __wakeup() {}
+    private function __clone() {}
 
     //Pattern Singleton
+    private static $singletonLogs;
+		
     public static function getInstance() 
     {
-        static $isnt = NULL;
-        if ($isnt === null) 
+        if (self::$singletonLogs === null) 
         {
-            $isnt = new Core();
+            self::$singletonLogs = new Core();
+            //echo 'Nova instancia da classe SingletonLogs<br>';
+        } 
+        else 
+        {
+            //echo 'A classe já foi instanciada!<br>';
         }
-        
-        return $isnt;
+
+        return self::$singletonLogs;
     }
     
     //Function main <<<<<<<<<<<<<<<<<<<<----

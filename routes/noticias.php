@@ -1,12 +1,9 @@
 <?php
 
 /* 
- * Test
+ * Exemple routes of Templates
  */
 
-
-//Getting object Template
-//$tpl = $this->core->loadModule('template');
 
 $this->get('noticia', function($arg){
     echo "entrou em notícias!";
@@ -15,6 +12,14 @@ $this->get('noticia', function($arg){
 $this->get('noticia/{id}', function($arg){
     
     $arg['nome'] = "Alô garotas do meu brasil.";
+    
+    //Connecting on database
+    $sql = $this->connect->prepare('SELECT * FROM noticia');
+    $sql->execute();
+    //$sql = $this->connect()
+    //$arg['tableNews'] = $sql->query('SELECT * FROM noticia');
+    $arg['tableNews'] = $sql->fetchAll();
+    
     $this->view('teste',$arg);
     
 });

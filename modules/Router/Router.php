@@ -11,22 +11,37 @@ class Router
     private $get;
     private $post;
     private $core;
+    private $connect;
+    
 
+    private function __construct() 
+    {
+        //Getting the Object Core
+        $this->core = Core::getInstance();
+        $this->connect = Database::getInstance();
+    }
+    
     //Pattern Singleton
+    private static $singletonLogs;
+		
     public static function getInstance() 
     {
-        static $isnt = NULL;
-        if ($isnt === null) 
+        if (self::$singletonLogs === null) 
         {
-            $isnt = new Router();
+            self::$singletonLogs = new Router();
+            //echo 'Nova instancia da classe SingletonLogs<br>';
+        } 
+        else 
+        {
+            //echo 'A classe já foi instanciada!<br>';
         }
-        
-        return $isnt;
+
+        return self::$singletonLogs;
     }
     
     public function load() 
     {
-        //I passed the call below for the method "view()"
+        //I passed the call below for the method "construct"
         //$this->core = Core::getInstance();
         
         //Calling the method "loadRoutesFile"
@@ -44,11 +59,9 @@ class Router
         }
     }
     
+    
     public function view($template, $data = array()) 
-    {
-        //Getting the Object Core
-        $this->core = Core::getInstance();
-        
+    {        
         //Getting object Template
         $tpl = $this->core->loadModule('template');
         

@@ -8,17 +8,27 @@
 
 class Template 
 {
+    
+    private function __construct() {}
+    
     //Pattern Singleton
+    private static $singletonLogs;
+		
     public static function getInstance() 
     {
-        static $isnt = NULL;
-        if ($isnt === null) 
+        if (self::$singletonLogs === null) 
         {
-            $isnt = new Template();
+            self::$singletonLogs = new Template();
+            //echo 'Nova instancia da classe SingletonLogs<br>';
+        } 
+        else 
+        {
+            //echo 'A classe já foi instanciada!<br>';
         }
-        
-        return $isnt;
+
+        return self::$singletonLogs;
     }
+    
     
     public function render($template, $data = array()) 
     {
