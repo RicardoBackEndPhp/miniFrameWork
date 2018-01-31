@@ -11,9 +11,10 @@ class Template
     
     private function __construct() {}
     
-    //Pattern Singleton
+    /** @var Template */
     private static $singletonLogs;
 		
+    //Pattern Singleton
     public static function getInstance() 
     {
         if (self::$singletonLogs === null) 

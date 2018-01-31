@@ -19,9 +19,10 @@ class News
     private function __wakeup() {}
     private function __clone() {}
 
-    //Pattern Singleton
+    /** @var News */
     private static $singletonLogs;
-		
+    
+    //Pattern Singleton
     public static function getInstance() 
     {
         if (self::$singletonLogs === null) 
@@ -35,6 +36,11 @@ class News
         }
 
         return self::$singletonLogs;
+    }
+    
+    public function getListNews() 
+    {
+        return $this->db->query('SELECT id,titulo,data FROM noticia ORDER BY data DESC');;
     }
     
     public function getNews($id) 
@@ -54,6 +60,30 @@ class News
         }
         
         return $resp;
+    }
+    
+    public function addNews($title, $news) 
+    {
+        $data = date('Y-m-d');
+        $query = "
+            INSERT INTO noticia SET 
+            titulo = :titulo,
+            conteudo = :conteudo,
+            data = '$data'
+        ";
+        $add = $this->db->prepare($query);
+        $add->bindValue(':titulo', $title);
+        $add->bindValue(':conteudo', $news);
+        $add->execute();
+        
+        if ($add->rowCount() > 0) 
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
     
 }

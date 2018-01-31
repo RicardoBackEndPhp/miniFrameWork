@@ -23,9 +23,11 @@ class Router
         $this->news = News::getInstance();
     }
     
-    //Pattern Singleton
+    
+    /** @var Router */
     private static $singletonLogs;
-		
+	
+    //Pattern Singleton
     public static function getInstance() 
     {
         if (self::$singletonLogs === null) 

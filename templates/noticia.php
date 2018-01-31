@@ -9,6 +9,7 @@
     </head>
     <body>
         <h1>Template de notícias</h1>
+        <a href="<?php echo BASE; ?>/noticia">Home</a>
         <hr/>
         <?php
             if(count($data['tableNews']) > 0)

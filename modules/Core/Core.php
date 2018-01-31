@@ -15,9 +15,10 @@ class Core
     private function __wakeup() {}
     private function __clone() {}
 
-    //Pattern Singleton
+    /** @var Core */
     private static $singletonLogs;
-		
+    
+    //Pattern Singleton
     public static function getInstance() 
     {
         if (self::$singletonLogs === null) 

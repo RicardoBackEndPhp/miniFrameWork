@@ -6,7 +6,19 @@
 
 
 $this->get('noticia', function($arg){
-    echo "entrou em notícias!";
+    $arg['tableNews'] = $this->news->getListNews();    
+    $this->view('home',$arg);
+});
+
+//exemple with method post
+$this->post('noticia', function($arg){
+    //print_r($_POST);
+    if(isset($_POST['titulo']) && !empty($_POST['titulo']) && !empty($_POST['conteudo']))
+    {
+        $this->news->addNews($_POST['titulo'], $_POST['conteudo']);
+    }
+       
+    header('location: ./noticia');
 });
 
 $this->get('noticia/{id}', function($arg){

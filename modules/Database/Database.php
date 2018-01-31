@@ -8,8 +8,9 @@
 
 class Database 
 {
-    
-    //Pattern Singleton
+    /** 
+     * Pattern Singleton
+     * @var Database */
     private static $singletonLogs;
     
     /**
