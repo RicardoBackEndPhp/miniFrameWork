@@ -12,6 +12,7 @@ class Router
     private $post;
     private $core;
     private $connect;
+    private $news;
     
 
     private function __construct() 
@@ -19,6 +20,7 @@ class Router
         //Getting the Object Core
         $this->core = Core::getInstance();
         $this->connect = Database::getInstance();
+        $this->news = News::getInstance();
     }
     
     //Pattern Singleton
